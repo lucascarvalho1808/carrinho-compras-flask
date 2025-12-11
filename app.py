@@ -60,8 +60,20 @@ def adicionar_ao_carrinho(produto_id):
     # Recuperar carrinho da sessão (ou criar lista vazia)
     carrinho = session.get('carrinho', [])
     
-    # Adicionar produto ao carrinho
-    carrinho.append(produtos[produto_id])
+    # Verificar se o produto já está no carrinho
+    produto_encontrado = False
+    for item in carrinho:
+        if item['id'] == produto_id:
+            # Se já existe, incrementa a quantidade
+            item['quantidade'] = item.get('quantidade', 1) + 1
+            produto_encontrado = True
+            break
+    
+    # Se não encontrou, adiciona como novo item com quantidade 1
+    if not produto_encontrado:
+        novo_item = produtos[produto_id].copy()
+        novo_item['quantidade'] = 1
+        carrinho.append(novo_item)
     
     # Salvar carrinho na sessão
     session['carrinho'] = carrinho
@@ -76,8 +88,8 @@ def adicionar_ao_carrinho(produto_id):
 def carrinho():
     carrinho = session.get('carrinho', [])
     
-    # Calcular total
-    total = sum(item['preco'] for item in carrinho)
+    # Calcular total considerando a quantidade
+    total = sum(item['preco'] * item.get('quantidade', 1) for item in carrinho)
     
     return render_template('carrinho.html', carrinho=carrinho, total=total)
 
@@ -86,15 +98,11 @@ def carrinho():
 def remover_do_carrinho(produto_id):
     carrinho = session.get('carrinho', [])
     
-    # Procurar e remover produto
-    for produto in carrinho:
-        if produto['id'] == produto_id:
-            carrinho.remove(produto)
-            session['carrinho'] = carrinho
-            flash('Produto removido do carrinho!')
-            break
-    else:
-        flash('Produto não encontrado no carrinho.')
+    # Recriar a lista mantendo apenas os itens que NÃO têm o ID informado
+    carrinho = [item for item in carrinho if item['id'] != produto_id]
+    
+    session['carrinho'] = carrinho
+    flash('Produto removido do carrinho!')
     
     return redirect(url_for('carrinho'))
 
