@@ -52,6 +52,11 @@ def index():
     produtos = app.config['PRODUTOS']
     return render_template('index.html', produtos=produtos)
 
+# Rota Sobre a Loja
+@app.route('/sobre')
+def sobre():
+    return render_template('sobre.html')
+
 # Rota para adicionar produto ao carrinho
 @app.route('/adicionar/<int:produto_id>', methods=['POST'])
 def adicionar_ao_carrinho(produto_id):
