@@ -98,6 +98,11 @@ def remover_do_carrinho(produto_id):
     
     return redirect(url_for('carrinho'))
 
+# Rota para limpar todo o carrinho
+@app.route('/limpar', methods=['POST'])
+def limpar_carrinho():
+    session.pop('carrinho', None)
+
 # Executar aplicação
 if __name__ == '__main__':
     app.run(debug=True)
