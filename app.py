@@ -12,36 +12,42 @@ app.config['PRODUTOS'] = {
         'id': 1, 
         'nome': 'Smartphone Galaxy', 
         'preco': 1200.00, 
+        'categoria': 'Eletrônicos',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     2: {
         'id': 2, 
         'nome': 'Notebook Dell', 
         'preco': 3500.00, 
+        'categoria': 'Computadores',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     3: {
         'id': 3, 
         'nome': 'Fone de Ouvido Bluetooth', 
         'preco': 150.00, 
+        'categoria': 'Acessórios',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     4: {
         'id': 4, 
         'nome': 'Monitor 24 Polegadas', 
         'preco': 899.90, 
+        'categoria': 'Periféricos',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     5: {
         'id': 5, 
         'nome': 'Teclado Mecânico', 
         'preco': 250.50, 
+        'categoria': 'Periféricos',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     6: {
         'id': 6, 
         'nome': 'Mouse Gamer', 
         'preco': 120.00, 
+        'categoria': 'Periféricos',
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
 }
@@ -50,7 +56,18 @@ app.config['PRODUTOS'] = {
 @app.route('/')
 def index():
     produtos = app.config['PRODUTOS']
-    return render_template('index.html', produtos=produtos)
+    categoria_filtro = request.args.get('categoria')
+    
+    # Obter lista única de categorias para o menu
+    categorias = sorted(list(set(p['categoria'] for p in produtos.values())))
+    
+    # Filtrar produtos se uma categoria for selecionada
+    if categoria_filtro:
+        produtos_filtrados = {k: v for k, v in produtos.items() if v['categoria'] == categoria_filtro}
+    else:
+        produtos_filtrados = produtos
+        
+    return render_template('index.html', produtos=produtos_filtrados, categorias=categorias, categoria_atual=categoria_filtro)
 
 # Rota Sobre a Loja
 @app.route('/sobre')
