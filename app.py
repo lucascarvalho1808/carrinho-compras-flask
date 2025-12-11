@@ -4,26 +4,44 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 
 # Chave secreta para sessões (em produção, use uma chave mais segura)
-app.secret_key = 'sua_chave_secreta_aqui'
+app.secret_key = '01a20eb3f73e21ff9a4e7e3520380fb2570f0b056811ad1ac84481a63c9299b5'
 
 # Configuração dos produtos (simulando um banco de dados)
 app.config['PRODUTOS'] = {
     1: {
         'id': 1, 
-        'nome': 'Produto 1', 
-        'preco': 10.00, 
+        'nome': 'Smartphone Galaxy', 
+        'preco': 1200.00, 
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     2: {
         'id': 2, 
-        'nome': 'Produto 2', 
-        'preco': 20.00, 
+        'nome': 'Notebook Dell', 
+        'preco': 3500.00, 
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
     3: {
         'id': 3, 
-        'nome': 'Produto 3', 
-        'preco': 30.00, 
+        'nome': 'Fone de Ouvido Bluetooth', 
+        'preco': 150.00, 
+        'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
+    },
+    4: {
+        'id': 4, 
+        'nome': 'Monitor 24 Polegadas', 
+        'preco': 899.90, 
+        'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
+    },
+    5: {
+        'id': 5, 
+        'nome': 'Teclado Mecânico', 
+        'preco': 250.50, 
+        'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
+    },
+    6: {
+        'id': 6, 
+        'nome': 'Mouse Gamer', 
+        'preco': 120.00, 
         'imagem_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Product_sample_icon_picture.png/640px-Product_sample_icon_picture.png'
     },
 }
